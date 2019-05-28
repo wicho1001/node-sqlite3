@@ -4,26 +4,20 @@ const Controllers = require('./Controllers/index')
 const port = 3000
 const path = require('path')
 const fs = require('fs')
+const Database = require('./db/database');
 
-const sqlite = require('sqlite3').verbose() // Instance with long-stack traces
-const db = new sqlite.Database('./db/database.db', (err) => {
-  if (err) {
-    return console.log(err.message)
-  }
-  console.log('Connected to the in-memory SQLite database.')
-}) // Creating database in-memory
+const db = new Database('./db/database.db')
+const connection = db.getConnection()
 
-db.serialize(async () => {
-  db.run('CREATE TABLE IF NOT EXISTS users(name VARCHAR(255), description VARCHAR(255), age INT)') // Creating table
+connection.serialize(async () => {
+  connection.run('CREATE TABLE IF NOT EXISTS users(name VARCHAR(255), description VARCHAR(255), age INT)') // Creating table
 
   // Getting all rows
-  db.each('SELECT * FROM users', (err, row) => {
+  connection.each('SELECT * FROM users', (err, row) => {
     if (err) return err
-    console.log(row.name, row.description)
+    console.log(row.name, row.description, row.age)
   })
 })
-
-db.close() // Closing database
 
 const mimeTypes = {
   'html': 'text/html',
@@ -39,6 +33,7 @@ const mimeTypes = {
 // Explicar que es el req.url y el req.method.
 // Tambien como funciona el http.createServer y por que le pasamos el Router y concatenamos el listen
 const routerUser = (req, res) => {
+  req.database = connection
   if (req.method === 'GET') {
     return Controllers.renderIndex(req, res)
   } else if (req.method === 'POST') {

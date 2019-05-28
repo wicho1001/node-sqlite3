@@ -1,6 +1,5 @@
 const fs = require('fs')
 const Model = require('../models/index')
-const db = require('../index')
 
 // Especificar por que se utilizan:
 //   * fs
@@ -11,14 +10,19 @@ const db = require('../index')
 //   * writeHead
 
 const crearUsuario = (req, res) => {
+  const { database: db } = req
   // Creating a user using Prepared Statement
-  console.log(req)
   const user = new Model.User(req.headers.name, req.headers.description, req.headers.age)
   db.serialize(async () => {
-    const stmt = db.prepare(`INSERT INTO users(name, description, age) VALUES (?, ?)`)
+    const stmt = db.prepare(`INSERT INTO users(name, description, age
+      ) VALUES (?, ?, ?)`)
     stmt.run(user.name, user.description, user.age)
     stmt.finalize()
   })
+  res.writeHead(201)
+  res.write('Coooool!')
+  res.end()
+  return
 }
 
 // Getting all rows
