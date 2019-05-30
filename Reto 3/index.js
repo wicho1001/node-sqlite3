@@ -23,26 +23,15 @@ const mimeTypes = {
   'css': 'text/css'
 }
 
-// Explicar como funciona un router, darle enfasis al de que es el req y el res
-// Explicar que es el req.url y el req.method.
-// Tambien como funciona el http.createServer y por que le pasamos el Router y concatenamos el listen
+// Explicar conexion entre Router y el controller
 const routerUser = (req, res) => {
   req.database = connection
   if (req.method === 'GET') {
-    return Controllers.findUsers(req, res)
+    return Controllers.renderIndex(req, res)
   } else if (req.method === 'POST') {
-    console.log(req.headers)
-    return Controllers.crearUsuario(req, res)
+    console.log('Aqui vas a mandar un usuario')
   }
 }
-
-// const routerModel = (req, res) => {
-//   if (req.method === 'GET') {
-//     return Controllers.renderModel(req, res)
-//   } else if (req.method === 'POST') {
-//     return Controllers.postModel(req, res)
-//   }
-// }
 
 const staticServer = (req, res) => {
   const uri = url.parse(req.url).pathname
