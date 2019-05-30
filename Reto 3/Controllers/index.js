@@ -1,14 +1,6 @@
 const fs = require('fs')
 const Model = require('../models/index')
 
-// Especificar por que se utilizan:
-//   * fs
-//   * module.exports
-//   * statusCode
-//   * setHeader
-//   * readFile
-//   * writeHead
-
 const crearUsuario = (req, res) => {
   const { database: db } = req
   // Creating a user using Prepared Statement
@@ -25,11 +17,19 @@ const crearUsuario = (req, res) => {
   return
 }
 
-// Getting all rows
-// db.each('SELECT * FROM users', (err, row) => {
-//   if (err) return err
-//   console.log(row.name, row.description)
-// })
+function findUsers(req, res){  
+  const { database: db } = req  
+    db.all('SELECT * FROM users', (err, rows) => {
+    if (err) return err
+    // Haz un console.log de row para saber que te esta llegando
+    console.log(rows)
+    // Inidica que el tipo de contenido que enviaras es un json
+    res.writeHead(201, { 'Content-type': 'application/json' })
+    res.write(JSON.stringify(rows))
+    // res.end(arr.map(e => e))
+  })  
+}
+
 const renderIndex = (req, res) => {
   fs.readFile('./views/index.html', null, (err, data) => {
     if (err) {
@@ -45,25 +45,8 @@ const renderIndex = (req, res) => {
   })
 }
 
-// const renderModel = (req, res) => {
-//   res.write(JSON.stringify(newData.map(e => e)))
-//   res.end()
-// }
-
-// const postModel = (req, res) => {
-//   res.writeHead(200, { 'Content-Type': 'application/json' })
-//   console.log(req.body)
-//   let newTour = new Model.Tour()
-//   console.log(newTour)
-//   fs.writeFile('server.json', newTour, (err) => {
-//     if (err) { return err }
-//     // res.write(newData)
-//     // res.send('El tour ha sido registrado')
-//     res.end()
-//   })
-// }
-
 module.exports = {
   renderIndex,
-  crearUsuario
+  crearUsuario,
+  findUsers
 }

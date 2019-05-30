@@ -11,12 +11,6 @@ const connection = db.getConnection()
 
 connection.serialize(async () => {
   connection.run('CREATE TABLE IF NOT EXISTS users(name VARCHAR(255), description VARCHAR(255), age INT)') // Creating table
-
-  // Getting all rows
-  connection.each('SELECT * FROM users', (err, row) => {
-    if (err) return err
-    console.log(row.name, row.description, row.age)
-  })
 })
 
 const mimeTypes = {
@@ -35,8 +29,9 @@ const mimeTypes = {
 const routerUser = (req, res) => {
   req.database = connection
   if (req.method === 'GET') {
-    return Controllers.renderIndex(req, res)
+    return Controllers.findUsers(req, res)
   } else if (req.method === 'POST') {
+    console.log(req.headers)
     return Controllers.crearUsuario(req, res)
   }
 }
