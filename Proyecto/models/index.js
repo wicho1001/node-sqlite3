@@ -12,3 +12,4 @@ class Tour {
 module.exports = {
   Tour
 }
+

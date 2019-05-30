@@ -10,7 +10,7 @@ const db = new Database('./db/database.db')
 const connection = db.getConnection()
 
 connection.serialize(async () => {
-  connection.run('CREATE TABLE IF NOT EXISTS users(name VARCHAR(255), description VARCHAR(255), age INT)') // Creating table
+  connection.run('CREATE TABLE IF NOT EXISTS tours(title VARCHAR(255), type VARCHAR(255), price INT, routeImage VARCHAR(255))') // Creating table
 })
 
 const mimeTypes = {
@@ -23,13 +23,15 @@ const mimeTypes = {
   'css': 'text/css'
 }
 
-// Explicar conexion entre Router y el controller
+// Explicar como funciona un router, darle enfasis al de que es el req y el res
+// Explicar que es el req.url y el req.method.
+// Tambien como funciona el http.createServer y por que le pasamos el Router y concatenamos el listen
 const routerUser = (req, res) => {
   req.database = connection
   if (req.method === 'GET') {
-    return Controllers.renderIndex(req, res)
+    return Controllers.findTour(req, res)
   } else if (req.method === 'POST') {
-    console.log('Aqui vas a mandar un usuario')
+    console.log('Aqui crearemos al usuario')
   }
 }
 
@@ -61,4 +63,3 @@ const Router = (req, res) => {
 }
 
 http.createServer((Router)).listen(port, () => console.log(`Estoy en http://localhost:${port}`))
-module.exports = db

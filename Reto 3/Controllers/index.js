@@ -1,9 +1,9 @@
 const fs = require('fs')
 const Model = require('../models/index')
 
-function findUsers(req, res){  
+function findTour(req, res){  
   const { database: db } = req  
-    db.all('SELECT * FROM users', (err, rows) => {
+    db.all('SELECT * FROM tours', (err, rows) => {
     if (err) return err
     // Haz un console.log de row para saber que te esta llegando
     console.log(rows)
@@ -32,5 +32,5 @@ const renderIndex = (req, res) => {
 
 module.exports = {
   renderIndex,
-  findUsers
+  findTour
 }
