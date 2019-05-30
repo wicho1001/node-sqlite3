@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Bedu Travels</title>
+    <link rel="stylesheet" href="http://localhost:3000/static/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="menu_main">
+        <a href="#">
+          <img id="bedu-logo" src="http://localhost:3000/static/img/bedu_logo.png" alt="">
+        </a>
+        <div>
+          <a href="">LogIn</a>
+          <a href="">SignIn</a>
+        </div>
+    </nav>
+
+    <section id="home-cover">
+      <div>
+        <p class="margin-bottom-sm title-font text-shadow">Increibles tours alrededor del mundo</p>
+        <p class="margin-bottom-md subtitle-font text-shadow">
+          Encuentra grandes experiencias,
+          viajes, y actividades a precios fantasticos
+          alrededor del mundo
+        </p>
+      </div>
+      <div class="searchbar">
+        <input type="text" placeholder="¿A dónde vas?... "/>
+        <button class="search-button" type="button"><i class="fas fa-search"></i></button>
+      </div>
+    </section>
+
+<section class="text-center margin-top-lg">
+    <p class="margin-bottom-sm title-font text-shadow">Destinos preferidos</p>
+    <p class="margin-bottom-md subtitle-font text-shadow">Mira nuestros destinos favoritos alrededor del mundo</p>
+<div class="top-country-container">
+  <section class="top-country-gridarea">
+        <div class="">
+          <img src="http://localhost:3000/static/img/cdmx.jpeg" alt="Tour CDMX">
+          <p>
+            Ciudad de México
+          </p>
+        </div>
+        <div class="">
+          <img src="http://localhost:3000/static/img/colombia.jpg" alt="Tour Colombia">
+          <p>
+            Colombia
+          </p>
+        </div>
+        <div class="">
+          <img src="http://localhost:3000/static/img/francia.jpg" alt="Tour Francia">
+          <p>
+            Francia
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/panama.jpg" alt="Tour por Panama">
+          <p>
+            Panamá
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/argentina.jpg" alt="Tour por Argentina">
+          <p>
+            Argentina
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/angeles.jpeg" alt="Tour por Los Angeles">
+          <p>
+            Los Ángeles
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/brasil.jpg" alt="Tour por Brasil">
+          <p>
+            Brasil
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/brasil.jpg" alt="Tour por Brasil">
+          <p>
+            Ciudad de México
+          </p>
+        </div>
+        <div>
+          <img src="http://localhost:3000/static/img/brasil.jpg" alt="Tour por Brasil">
+          <p>
+            Ciudad de México
+          </p>
+        </div>
+
+        <button onclick={http()}>AQUIII</button>
+
+  </section>
+</div>
+</section>
+    <footer class="margin-top-lg">
+      <ul>
+        <li>Bedu Travels</li>
+        <li>hola@bedutravels.com</li>
+      </ul>
+      <div class="social-media-container">
+        <img src="http://localhost:3000/static/img/facebook.svg" alt="">
+        <img src="http://localhost:3000/static/img/twitter.svg" alt="">
+        <img src="http://localhost:3000/static/img/instagram.svg" alt="">
+      </div>
+    </footer>
+  </body>
+  <script>
+    function http(url){
+      let Peticion = new XMLHttpRequest()
+      
+      Peticion.open('GET', 'http://localhost:3000/model' , false)
+      Peticion.send(null)
+      
+      let texto = JSON.parse(Peticion.response)
+      let p = document.createElement('p')
+      let img = document.createElement('img')
+      let div = document.createElement('div')
+
+      div.setAttribute('class', 'newElement')
+      let {type, pais, ruta} = texto
+      img.src = ruta
+      p.innerHTML = `${type} ${pais}`
+      return (
+        console.log(type) ,
+        document.querySelector('.top-country-gridarea').appendChild(div),
+        document.querySelector('.newElement').appendChild(img),
+        document.querySelector('.newElement').appendChild(p)
+      )
+    }
+  </script>
+
+</html>
+
